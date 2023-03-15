@@ -10,7 +10,7 @@
 typedef struct cads_al {
     char nome [50];
     char sexo;
-    char cpf[11];
+    char cpf[12];
     int matricula;
     int dia, mes, ano;
     }aluno;
@@ -29,7 +29,7 @@ int main(void) {
 
     switch (opcao){
       case 0:{ 
-        printf("Encerrando programa");
+        printf("Encerrando programa\n");
         break;}
       case 1:{
         int opcaoAluno = 1;
@@ -81,9 +81,21 @@ int cadastro_aluno (aluno aluno[],int qtdAluno){
     return LISTA_CHEIA;
   }
   else {
+    printf("Digite a matricula\n");
+    scanf("%d",&aluno[qtdAluno].matricula);
     printf("Digite o nome\n");
-    fgets(aluno[qtdAluno].nome,50,stdin);
-    puts(aluno[qtdAluno].nome);
+    getchar();
+    //char buffer[100];
+    //fgets(buffer,100,stdin);
+    
+    fgets(aluno[qtdAluno].nome, 50, stdin); 
+    size_t ln = strlen(aluno[qtdAluno].nome) - 1;
+    if (aluno[qtdAluno].nome[ln] == '\n')
+        aluno[qtdAluno].nome[ln] = '\0';
+     printf("Digite o cpf \n");
+    fgets(aluno[qtdAluno].cpf,12,stdin);
+    puts(aluno[qtdAluno].cpf);
+   
     return SUCESSO;
   }
 }
