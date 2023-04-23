@@ -31,15 +31,15 @@ void testQ6();
 
 int main()
 {
-    //testSomar();
-    //testFatorial();
-    //testQ1();//feito
-   //testQ2();
-    //testQ3();//feito
-    testQ4();
-    //testQ5();//feito
+    testSomar();
+    testFatorial();
+    testQ1();//feito
+   testQ2();//feito
+    testQ3();//feito
+    testQ4();//feito
+    testQ5();//feito
     //8
-  //testQ6();//feito
+    testQ6();//feito
 }
 
 void testSomar()

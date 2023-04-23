@@ -80,6 +80,7 @@ DataQuebrada quebraData(char data[]){
 	char sMes[3];
 	char sAno[5];
 	int i; 
+  dq.valido = 1;
 
 	for (i = 0; data[i] != '/'; i++){
 		sDia[i] = data[i];	
@@ -126,9 +127,46 @@ DataQuebrada quebraData(char data[]){
   dq.iDia = atoi(sDia);
   dq.iMes = atoi(sMes);
   dq.iAno = atoi(sAno); 
-
-	dq.valido = 1;
+  if(dq.iDia < 1 || dq.iDia > 31){
+      dq.valido = 0;
+      return dq; 
+    }
+    if(dq.iMes < 1 || dq.iMes > 12){
+      dq.valido = 0;
+      return dq; 
+    }
+    if(dq.iAno < 1000){
+      dq.iAno+=2000;
+    }
     
+    
+    if ((dq.iDia < 1 || dq.iDia > 31) || (dq.iMes < 1 && dq.iMes > 12)) {
+    dq.valido = 0;
+    return dq; 
+    }
+    if (dq.iDia == 31) {
+      if ((dq.iMes >= 1 && dq.iMes <= 7 && dq.iMes % 2 == 0) ||
+          (dq.iMes >= 8 && dq.iMes <= 12 && dq.iMes % 2 != 0)) {
+    
+        dq.valido = 0;
+        return dq; 
+      }
+    }
+     if (dq.iDia == 29 && dq.iMes == 2) {
+        if(dq.iAno % 4 != 0 )
+        {
+          dq.valido = 0;
+          return dq;
+        }
+        else if(dq.iAno % 100 == 0)
+        {
+          if(dq.iAno % 400 != 0){
+          dq.valido = 0;
+          return dq;
+          }
+        }
+      }
+  
   return dq;
 }
 /*
@@ -173,8 +211,11 @@ int q1(char data[]){
     }
   }
   if(j == 4 || j== 2){
-  
     sAno[j] = '\0';
+  }
+  else{
+    datavalida = 0;
+  }
     iDia = atoi(sDia);
     iMes = atoi(sMes);
     iAno = atoi(sAno);
@@ -211,10 +252,6 @@ int q1(char data[]){
           }
         }
       }
-  }
-  else{
-    datavalida = 0;
-  }
 
   if (datavalida == 1){
       return 1;
@@ -245,20 +282,149 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
 
     //calcule os dados e armazene nas três variáveis a seguir
     DiasMesesAnos dma;
-
-    if (q1(datainicial) == 0){
+    DataQuebrada di;
+    DataQuebrada df;
+    dma.qtdAnos=0;
+    dma.qtdDias=0;
+    dma.qtdMeses=0;
+    di = quebraData(datainicial);
+    df = quebraData(datafinal);
+    if (di.valido == 0){
       dma.retorno = 2;
       return dma;
-    }else if (q1(datafinal) == 0){
+    }
+    else if (df.valido == 0){
       dma.retorno = 3;
       return dma;
-    }else{
-      //verifique se a data final não é menor que a data inicial
+    }
+    else{
+      if(di.iAno > df.iAno)
+      {
+        dma.retorno = 4;
+        return dma;
+      }
+      else if(di.iAno == df.iAno)
+      {
+        if(di.iMes > df.iMes)
+        {
+          dma.retorno = 4;
+          return dma;
+        }
+        else if(di.iMes == df.iMes)
+        {
+          if(di.iDia > df.iDia){
+            dma.retorno = 4;
+            return dma;
+          }
+        }
+      }
+      if(df.iAno > di.iAno)
+      {
+        dma.qtdAnos = df.iAno - di.iAno;
+        if(df.iMes > di.iMes)
+        {
+          dma.qtdMeses = df.iMes - di.iMes;
+          if(df.iDia > di.iDia)
+          {
+            dma.qtdDias = df.iDia - di.iDia;
+          }
+          else if(df.iDia < di.iDia)
+          {
+            if(df.iMes >= 1 && df.iMes <= 7)
+            {
+              if(df.iMes % 2 == 0)
+              {
+                dma.qtdMeses --;
+                df.iDia +=30;
+                dma.qtdDias = df.iDia - di.iDia;
+              }
+              if(df.iMes % 2 != 0)
+              {
+                dma.qtdMeses --;
+                df.iDia +=31;
+                dma.qtdDias = df.iDia - di.iDia;
+              }
+            } 
+            if(df.iMes >= 8 && df.iMes <= 12)
+            {
+              if(df.iMes % 2 == 0)
+              {
+                dma.qtdMeses --;
+                df.iDia +=30;
+                dma.qtdDias = df.iDia - di.iDia;
+              }
+              if(df.iMes % 2 != 0)
+              {
+                dma.qtdMeses --;
+                df.iDia +=31;
+                dma.qtdDias = df.iDia - di.iDia;
+              }
+            }
+          }
+          
+        }
+        if(df.iMes < di.iMes)
+        {
+          dma.qtdAnos --;
+          df.iMes += 12;
+          dma.qtdMeses = df.iMes - di.iMes;
+          dma.qtdDias = df.iDia - di.iDia;
+        }
+        if(df.iMes == di.iMes)
+        {
+          dma.qtdDias = df.iDia - di.iDia;
+        }
+      }
+      if(df.iAno == di.iAno)
+      {
+        if(df.iMes == di.iMes)
+        {
+          dma.qtdDias = df.iDia - di.iDia;
+        }
+        if(df.iMes > di.iMes)
+        {
+          dma.qtdMeses = df.iMes - di.iMes;
+          if(df.iDia > di.iDia)
+          {
+            dma.qtdDias = df.iDia - di.iDia;
+          }
+          else if(df.iDia < di.iDia)
+          {
+            if(df.iMes >= 1 && df.iMes <= 7)
+            {
+              if(df.iMes % 2 == 0)
+              {
+                dma.qtdMeses --;
+                df.iDia +=30;
+                dma.qtdDias = df.iDia - di.iDia;
+              }
+              if(df.iMes % 2 != 0)
+              {
+                dma.qtdMeses --;
+                df.iDia +=31;
+                dma.qtdDias = df.iDia - di.iDia;
+              }
+            } 
+            if(df.iMes >= 8 && df.iMes <= 12)
+            {
+              if(df.iMes % 2 == 0)
+              {
+                dma.qtdMeses --;
+                df.iDia +=30;
+                dma.qtdDias = df.iDia - di.iDia;
+              }
+              if(df.iMes % 2 != 0)
+              {
+                dma.qtdMeses --;
+                df.iDia +=31;
+                dma.qtdDias = df.iDia - di.iDia;
+              }
+            }
+          }
+          
+        }
+      }
       
-      //calcule a distancia entre as datas
-
-
-      //se tudo der certo
       dma.retorno = 1;
       return dma;
       
