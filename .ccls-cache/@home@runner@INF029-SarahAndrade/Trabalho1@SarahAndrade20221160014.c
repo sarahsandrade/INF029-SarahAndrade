@@ -330,30 +330,48 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
           }
           else if(df.iDia < di.iDia)
           {
-            if(df.iMes >= 1 && df.iMes <= 7)
+            if(df.iMes -1 >= 1 && df.iMes -1 <= 7)
             {
-              if(df.iMes % 2 == 0)
+              if((df.iMes -1) % 2 == 0)
               {
                 dma.qtdMeses --;
                 df.iDia +=30;
                 dma.qtdDias = df.iDia - di.iDia;
               }
-              if(df.iMes % 2 != 0)
+              if((df.iMes -1) % 2 != 0)
               {
                 dma.qtdMeses --;
                 df.iDia +=31;
                 dma.qtdDias = df.iDia - di.iDia;
               }
             } 
-            if(df.iMes >= 8 && df.iMes <= 12)
+            if(df.iMes == 3){
+              dma.qtdMeses --;
+              if(df.iAno % 4)
+              {
+                if(df.iAno % 100 == 0 && df.iAno % 400 == 0)
+                {  
+                  df.iDia +=29;
+                }
+                if(df.iAno % 100 != 0)
+                {
+                  df.iDia +=29;
+                }
+              }
+              else {
+                df.iDia +=28;
+              }
+              dma.qtdDias = df.iDia - di.iDia;
+            }
+            if(df.iMes- 1 >= 8 && df.iMes -1 <= 12)
             {
-              if(df.iMes % 2 == 0)
+              if((df.iMes -1) % 2 == 0)
               {
                 dma.qtdMeses --;
                 df.iDia +=30;
                 dma.qtdDias = df.iDia - di.iDia;
               }
-              if(df.iMes % 2 != 0)
+              if((df.iMes -1) % 2 != 0)
               {
                 dma.qtdMeses --;
                 df.iDia +=31;
@@ -405,6 +423,24 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
                 dma.qtdDias = df.iDia - di.iDia;
               }
             } 
+            if(df.iMes == 3){
+              dma.qtdMeses --;
+              if(df.iAno % 4)
+              {
+                if(df.iAno % 100 == 0 && df.iAno % 400 == 0)
+                {  
+                  df.iDia +=29;
+                }
+                if(df.iAno % 100 != 0)
+                {
+                  df.iDia +=29;
+                }
+              }
+              else {
+                df.iDia +=28;
+              }
+              dma.qtdDias = df.iDia - di.iDia;
+            }
             if(df.iMes >= 8 && df.iMes <= 12)
             {
               if(df.iMes % 2 == 0)

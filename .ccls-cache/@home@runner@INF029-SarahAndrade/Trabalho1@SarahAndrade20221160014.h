@@ -20,8 +20,8 @@
 // Última atualização: 07/05/2021
 
 // #################################################
-#ifndef TRABALHO1_PRIMEIROULTIMONOMEMATRICULA_H
-#define TRABALHO1_PRIMEIROULTIMONOMEMATRICULA_H
+#ifndef TRABALHO1_SarahAndrade20221160014_H
+#define TRABALHO1_SarahAndrade20221160014_H
 
 typedef struct DQ
 {
