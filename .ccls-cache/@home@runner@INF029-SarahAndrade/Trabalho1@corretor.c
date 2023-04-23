@@ -33,12 +33,13 @@ int main()
 {
     //testSomar();
     //testFatorial();
-    testQ1();
+    //testQ1();//feito
    //testQ2();
-    /*testQ3();
+    //testQ3();//feito
     testQ4();
-    testQ5();
-    testQ6();*/
+    //testQ5();//feito
+    //8
+  //testQ6();//feito
 }
 
 void testSomar()
@@ -137,7 +138,7 @@ void testQ3()
     printf("%d\n", q3(str, 'a', 0) == 3);
     printf("%d\n", q3(str, 'b', 0) == 0);
     printf("%d\n", q3(str, 'l', 1) == 0);
-    printf("%d\n", q3(str, 'l', 0) == 1);
+    printf("%d\n", q3(str, 'R', 0) == 1);
     printf("%d\n", q3(str, 'L', 0) == 1);
 }
 

@@ -148,70 +148,75 @@ int q1(char data[]){
   int datavalida = 1;
   int i,j;
   char sDia[3], sMes[3], sAno[5];
-  int iDia, iMes, iAno;
-  for(i=0; data[i] != '/';i++){ 
-    if(data[i] >= '0' || data[i] <= '9'){
-      sDia[i] = data[i];
-    }
-    else{
-      datavalida = 0;
+  int iDia =0 , iMes=0 , iAno = 0;
+
+  for(i =0,j=0; data[i] != '/';i++){
+    if(data[i] >= '0' && data[i] <= '9'){
+      sDia[j] = data[i];
+      j++;
     }
   }
-  if(i!= 1 || i!=2){
-     datavalida = 0;
-  }
+  sDia[j] = '\0';
   i++;
-  sDia[i]='\0';
-  for(j=0;data[i] != '/';j++,i++){
-    if(data[i] >= '0' || data[i] <= '9'){
+  for(j=0; data[i] != '/';i++){
+    if(data[i] >= '0' && data[i] <= '9'){
       sMes[j] = data[i];
-    }
-    else{
-      datavalida = 0;
+      j++;
     }
   }
+  sMes[j] = '\0';
   i++;
-  j++;
-  if(j != 1 || j != 2){
-    datavalida = 0;
-  }
-   sMes[j]='\0';
-  for(j=0;data[i]!= '\0';j++,i++){
-    if(data[i] >= '0' || data[i] <= '9'){
+  for(j=0; data[i] != '\0';i++){
+    if(data[i] >= '0' && data[i] <= '9'){
       sAno[j] = data[i];
-    }
-    else{
-      datavalida = 0;
+      j++;
     }
   }
-  j++;
-  if(j != 2 || j != 4){
+  if(j == 4 || j== 2){
+  
+    sAno[j] = '\0';
+    iDia = atoi(sDia);
+    iMes = atoi(sMes);
+    iAno = atoi(sAno);
+    if(iDia < 1 || iDia > 31){
+      datavalida = 0; 
+    }
+    if(iMes < 1 || iMes > 12){
+      datavalida = 0; 
+    }
+    if(iAno < 1000){
+      iAno+=2000;
+    }
+    
+    
+    if ((iDia < 1 || iDia > 31) || (iMes < 1 && iMes > 12)) {
+    datavalida = 0;
+    }
+    if (iDia == 31) {
+      if ((iMes >= 1 && iMes <= 7 && iMes % 2 == 0) ||
+          (iMes >= 8 && iMes <= 12 && iMes % 2 != 0)) {
+    
+       datavalida = 0;
+      }
+    }
+     if (iDia == 29 && iMes == 2) {
+        if(iAno % 4 != 0 )
+        {
+          datavalida = 0;
+        }
+        else if(iAno % 100 == 0)
+        {
+          if(iAno % 400 != 0){
+          datavalida = 0;
+          }
+        }
+      }
+  }
+  else{
     datavalida = 0;
   }
-   sAno[j]='\0';
-  
-  iDia = atoi(sDia);
-  iMes = atoi(sMes);
-  iAno = atoi(sAno);
 
-  if ((iDia < 1 || iDia > 31) || (iMes < 1 && iMes > 12)) {
-   datavalida = 0;
-  }
-
-  if (iDia == 31) {
-    if ((iMes >= 1 && iMes <= 7 && iMes % 2 == 0) ||
-        (iMes >= 8 && iMes <= 12 && iMes % 2 != 0)) {
-
-     datavalida = 0;
-    }
-  }
-  if (iDia == 29 && iMes == 2) {
-    if(iAno % 4 != 0 || (iAno % 4 == 0 && iAno % 100 == 0 && iAno % 400 != 0)){
-   datavalida = 0;
-    }
-  }
-
-  if (datavalida){
+  if (datavalida == 1){
       return 1;
   }
   else{
@@ -273,9 +278,13 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
  */
 int q3(char *texto, char c, int isCaseSensitive)
 {
-    int qtdOcorrencias = -1;
-
-    return qtdOcorrencias;
+  int qtdOcorrencias = 0;
+  for(int i; texto[i] != '\0';i++){
+    if(texto[i]== c){
+      qtdOcorrencias ++;
+    }
+  }
+  return qtdOcorrencias;
 }
 
 /*
@@ -294,8 +303,30 @@ int q3(char *texto, char c, int isCaseSensitive)
  */
 int q4(char *strTexto, char *strBusca, int posicoes[30])
 {
-    int qtdOcorrencias = -1;
-
+    int qtdOcorrencias = 0;
+    char auxtexto[100];
+    for(int i=0,j=0;strTexto[i]!='\0';i++){
+      if(strTexto[i]==-61){
+        i++;
+      }
+      auxtexto[j]=strTexto[i];
+      j++;
+      if(strTexto[i+1]=='\0'){
+        auxtexto[j]='\0';
+      }
+    }
+    for(int i=0,pos=0;auxtexto[i]!='\0';i++){
+      if(auxtexto[i]==strBusca[0]){
+        int k=i+1;
+        for(int j=1;strBusca[j]!='\0';j++,k++){
+          if(auxtexto[k]==strBusca[j] && strBusca[j+1]=='\0'){
+            posicoes[pos++]=i+1;
+            posicoes[pos++]=k+1;
+            qtdOcorrencias++;
+          }
+        }
+      }
+    }
     return qtdOcorrencias;
 }
 
@@ -311,8 +342,25 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
 
 int q5(int num)
 {
+  
+  int i,base,resto,nume[30];
+  for(i=0;num>0;i++){
+    if(num<10){
+      nume[i]=num;
+      break;
+    }
+    resto=num%10;
+    num=num/10;
+    nume[i]=resto;
+  }
+  int num2=0;
+  for(base=1;i>=0;i--){
+    num2+=(nume[i]*base);
+    base*=10;
+  }
 
-    return num;
+
+    return num2;
 }
 
 /*
@@ -327,6 +375,39 @@ int q5(int num)
 
 int q6(int numerobase, int numerobusca)
 {
-    int qtdOcorrencias;
+  int base,resto,nbase[30],nbusca[30],qtdOcorrencias=0;
+  int i,j,contBase,contBusca;
+    for(contBase=0;numerobase>0;contBase++){
+    if(numerobase<10){
+      nbase[contBase]=numerobase;
+      break;
+    }
+    resto=numerobase%10;
+    numerobase=numerobase/10;
+    nbase[contBase]=resto;
+  }
+  for(contBusca=0;numerobusca>0;contBusca++){
+    if(numerobusca<10){
+      nbusca[contBusca]=numerobusca;
+      break;
+    }
+    resto=numerobusca%10;
+    numerobusca=numerobusca/10;
+    nbusca[contBusca]=resto;
+  }
+  for(i=contBase;i>=0;i--){
+    if(nbase[i]==nbusca[contBusca]){
+      int k=i;
+      for(j=contBusca;j>=0;j--,k--){
+        if(nbase[k]==nbusca[j]&&j==0){
+          qtdOcorrencias++;
+        }
+        if(nbase[k]!=nbusca[j]){
+          break;
+        }
+      }
+    }
+  }
+  
     return qtdOcorrencias;
 }
