@@ -152,7 +152,8 @@ DataQuebrada quebraData(char data[]){
         return dq; 
       }
     }
-     if (dq.iDia == 29 && dq.iMes == 2) {
+     if (dq.iDia == 29 && dq.iMes == 2) 
+     {
         if(dq.iAno % 4 != 0 )
         {
           dq.valido = 0;
@@ -160,7 +161,8 @@ DataQuebrada quebraData(char data[]){
         }
         else if(dq.iAno % 100 == 0)
         {
-          if(dq.iAno % 400 != 0){
+          if(dq.iAno % 400 != 0)
+          {
           dq.valido = 0;
           return dq;
           }

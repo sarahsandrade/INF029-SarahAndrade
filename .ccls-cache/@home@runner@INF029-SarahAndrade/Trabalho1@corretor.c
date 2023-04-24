@@ -33,13 +33,13 @@ int main()
 {
     testSomar();
     testFatorial();
-    testQ1();//feito
-   testQ2();//feito
-    testQ3();//feito
-    testQ4();//feito
-    testQ5();//feito
+    testQ1();
+   testQ2();
+    testQ3();
+    testQ4();
+    testQ5();
     //8
-    testQ6();//feito
+    testQ6();
 }
 
 void testSomar()
